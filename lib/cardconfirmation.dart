@@ -190,7 +190,27 @@ class _CardconfirmState extends State<Cardconfirm> {
                     ),
                   ),
                 ],
-              ))
+              )),
+          Container(
+              child: Row(
+            children: [
+              Checkbox(
+                  activeColor: Color.fromARGB(255, 153, 115, 23),
+                  value: this.value,
+                  onChanged: (value) {
+                    setState(() {
+                      this.value = value!;
+                    });
+                  }),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                'Your card used during booking will be\n authorised for incidentals and real-time bill payments.',
+                style: TextStyle(fontSize: 10, fontFamily: 'clanot'),
+              )
+            ],
+          )),
         ]))));
   }
 }

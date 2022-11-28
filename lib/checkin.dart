@@ -34,52 +34,45 @@ class _CheckInScreenState extends State<CheckInScreen> {
               color: Color.fromARGB(255, 153, 115, 23),
             ))
       ]),
-      body: Container(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Check In',
+            style: TextStyle(fontFamily: 'clanot', fontSize: 20),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Please fill your details',
+            style: TextStyle(fontFamily: 'clanot', fontSize: 12),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          inputButtonWidget('Confirmation ID', confirmationNo, null),
+          inputButtonWidget('Last Name', lastName, null),
+          inputButtonWidget(
+              'Arrival Date',
+              arriveDate,
+              IconButton(
+                  onPressed: (() {
+                    _selectDate(context);
+                  }),
+                  icon: Icon(
+                    Icons.calendar_month,
+                    color: Color.fromARGB(255, 153, 115, 23),
+                  ))),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        height: 150,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Check In',
-              style: TextStyle(fontFamily: 'clanot', fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Please fill your details',
-              style: TextStyle(fontFamily: 'clanot', fontSize: 12),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            inputButtonWidget('Confirmation ID', confirmationNo, null),
-            inputButtonWidget('Last Name', lastName, null),
-            inputButtonWidget(
-                'Arrival Date',
-                arriveDate,
-                IconButton(
-                    onPressed: (() {
-                      _selectDate(context);
-                    }),
-                    icon: Icon(
-                      Icons.calendar_month,
-                      color: Color.fromARGB(255, 153, 115, 23),
-                    ))),
-            Spacer(),
-            Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: Column(
-                children: [
-                  commonButtonwidget(Color.fromARGB(255, 153, 115, 23),
-                      'FIND MY BOOKING', Colors.white, true),
-                  commonButtonwidget(
-                      Colors.white, 'Cancel', Colors.black, false),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            )
+            commonButtonwidget(Color.fromARGB(255, 153, 115, 23),
+                'FIND MY BOOKING', Colors.white, true),
+            commonButtonwidget(Colors.white, 'Cancel', Colors.black, false),
           ],
         ),
       ),
