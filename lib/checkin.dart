@@ -114,7 +114,6 @@ class _CheckInScreenState extends State<CheckInScreen> {
       setState(() {
         selectedDate = selected;
         arriveDate.text = DateFormat('dd/MM/yyyy').format(selectedDate);
-        ;
       });
     }
   }
@@ -156,30 +155,32 @@ class _CheckInScreenState extends State<CheckInScreen> {
       String title, TextEditingController controller, IconButton? suffixIcon) {
     return Padding(
       padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontFamily: 'clanot', fontSize: 10),
-          ),
-          TextFormField(
-            controller: controller,
-            onTap: () {
-              if (suffixIcon != null) {
-                //
-                _selectDate(context);
-              }
-            },
-            decoration: InputDecoration(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          title,
+          style: TextStyle(fontFamily: 'clanot', fontSize: 10),
+        ),
+        TextFormField(
+          style: TextStyle(fontFamily: 'clanot', fontSize: 12),
+          controller: controller,
+          onTap: () {
+            if (suffixIcon != null) {
+              //
+              _selectDate(context);
+            }
+          },
+          decoration: InputDecoration(
               suffixIcon: suffixIcon,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          )
-        ],
-      ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                ),
+              )),
+        )
+      ]),
     );
   }
 }
