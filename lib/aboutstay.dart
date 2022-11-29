@@ -8,16 +8,25 @@ import 'package:intl/intl.dart';
 class Aboutstay extends StatefulWidget {
   Aboutstay({super.key, required this.jsonObj});
   Bookingdata jsonObj;
+
   @override
   State<Aboutstay> createState() => _AboutstayState();
 }
 
 class _AboutstayState extends State<Aboutstay> {
+  late Bookingdata bookingdata;
   // String convertDateTime(String DateTime) {
   //   DateTime tempDate = DateFormat("yyy-MM-ddthh:mm:ss").parse(DateTime);
   //   String dates = DateFormat('dd MMM,yyyy').format(template);
   //   return dates;
   // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    bookingdata = this.widget.jsonObj!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +99,11 @@ class _AboutstayState extends State<Aboutstay> {
                         children: [
                           Padding(padding: EdgeInsets.only(left: 5)),
                           Text(
-                            'Steven Bradely',
+                            (bookingdata.details!.contactPerson?.firstName)
+                                    .toString() +
+                                ' ' +
+                                (bookingdata.details!.contactPerson?.lastName)
+                                    .toString(),
                             style:
                                 TextStyle(fontFamily: 'clanot', fontSize: 20),
                           ),
@@ -102,7 +115,12 @@ class _AboutstayState extends State<Aboutstay> {
                         children: [
                           Padding(padding: EdgeInsets.only(left: 5)),
                           Text(
-                            'BOOKING ID:AK123',
+                            'Booking ID:',
+                            style:
+                                TextStyle(fontFamily: 'clanot', fontSize: 12),
+                          ),
+                          Text(
+                            (bookingdata.uniqueBookingId.toString()),
                             style:
                                 TextStyle(fontFamily: 'clanot', fontSize: 12),
                           )
@@ -110,7 +128,7 @@ class _AboutstayState extends State<Aboutstay> {
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     Container(
                       child: Row(
@@ -131,7 +149,7 @@ class _AboutstayState extends State<Aboutstay> {
                                 size: 25,
                               )),
                           SizedBox(
-                            width: 50,
+                            width: 40,
                           ),
                           Text(
                             'CHECK OUT',
@@ -145,17 +163,17 @@ class _AboutstayState extends State<Aboutstay> {
                       child: Row(
                         children: [
                           Text(
-                            '20 Dec,2022',
+                            (bookingdata.details!.checkInDate.toString()),
                             style: TextStyle(
                               fontFamily: 'clanot',
                               fontSize: 10,
                             ),
                           ),
                           SizedBox(
-                            width: 160,
+                            width: 78,
                           ),
                           Text(
-                            '22 Dec,2022',
+                            (bookingdata.details!.checkOutDate.toString()),
                             style:
                                 TextStyle(fontFamily: 'clanot', fontSize: 10),
                           )
@@ -169,7 +187,12 @@ class _AboutstayState extends State<Aboutstay> {
                       child: Row(
                         children: [
                           Text(
-                            'Nights:  2',
+                            "Nights:  ",
+                            style:
+                                TextStyle(fontFamily: 'clanot', fontSize: 12),
+                          ),
+                          Text(
+                            (bookingdata.details!.nightCount.toString()),
                             style:
                                 TextStyle(fontFamily: 'clanot', fontSize: 12),
                           )
@@ -182,7 +205,11 @@ class _AboutstayState extends State<Aboutstay> {
                     Row(
                       children: [
                         Text(
-                          'Hotel:  Sofitel philippine plaza manila',
+                          'Hotel:  ',
+                          style: TextStyle(fontFamily: 'clanot', fontSize: 12),
+                        ),
+                        Text(
+                          (bookingdata.details!.hotelName.toString()),
                           style: TextStyle(fontFamily: 'clanot', fontSize: 12),
                         )
                       ],
@@ -193,7 +220,11 @@ class _AboutstayState extends State<Aboutstay> {
                     Row(
                       children: [
                         Text(
-                          'Guest:  2Adults/0Children',
+                          'Guest:  ',
+                          style: TextStyle(fontFamily: 'clanot', fontSize: 12),
+                        ),
+                        Text(
+                          (bookingdata.details!.totalGuestCount.toString()),
                           style: TextStyle(fontFamily: 'clanot', fontSize: 12),
                         )
                       ],
@@ -204,13 +235,13 @@ class _AboutstayState extends State<Aboutstay> {
                     Row(
                       children: [
                         Text(
-                          'Email:  Steve.Bradely@gmail.com',
+                          'Email:  joe.test@gmail.com',
                           style: TextStyle(fontFamily: 'clanot', fontSize: 12),
                         )
                       ],
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Container(
                       child: Row(
@@ -236,9 +267,9 @@ class _AboutstayState extends State<Aboutstay> {
                         children: [
                           ListTile(
                             leading: Text(
-                              '1 X Sofitel Suite',
+                              (bookingdata.roomTypes![0].name.toString()),
                               style:
-                                  TextStyle(fontFamily: 'clanot', fontSize: 16),
+                                  TextStyle(fontFamily: 'clanot', fontSize: 12),
                             ),
                             trailing: IconButton(
                               icon: Icon(
@@ -255,7 +286,7 @@ class _AboutstayState extends State<Aboutstay> {
                                   left: 15,
                                 ),
                                 child: Text(
-                                  'City View',
+                                  (bookingdata.roomTypes![0].code.toString()),
                                   style: TextStyle(
                                       fontFamily: 'clanot', fontSize: 12),
                                 ),
@@ -288,7 +319,9 @@ class _AboutstayState extends State<Aboutstay> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Guestinfo()),
+                                builder: (context) => Guestinfo(
+                                      jsonobj: this.widget.jsonObj,
+                                    )),
                           );
                         },
                         child: Text(

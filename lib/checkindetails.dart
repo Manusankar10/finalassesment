@@ -10,6 +10,9 @@ class Checkindetails extends StatefulWidget {
 
 class _CheckindetailsState extends State<Checkindetails> {
   bool value = false;
+  bool value1 = false;
+  bool value2 = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +24,9 @@ class _CheckindetailsState extends State<Checkindetails> {
               Icons.arrow_back_ios,
               color: Color.fromARGB(255, 153, 115, 23),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           actions: [
             Padding(
@@ -317,7 +322,7 @@ class _CheckindetailsState extends State<Checkindetails> {
                     Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 20),
+                          padding: EdgeInsets.only(left: 10),
                           child: Text('Date of Birth',
                               style: TextStyle(
                                   fontFamily: 'clanot', fontSize: 12)),
@@ -337,13 +342,13 @@ class _CheckindetailsState extends State<Checkindetails> {
                     Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 20),
+                          padding: EdgeInsets.only(left: 30),
                           child: Text('01 jan 1990',
                               style: TextStyle(
                                   fontFamily: 'clanot', fontSize: 12)),
                         ),
                         SizedBox(
-                          width: 130,
+                          width: 140,
                         ),
                         Row(
                           children: [
@@ -355,18 +360,18 @@ class _CheckindetailsState extends State<Checkindetails> {
                       ],
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(right: 230),
+                          padding: EdgeInsets.only(right: 270),
                           child: Text('Email',
                               style: TextStyle(
                                   fontFamily: 'clanot', fontSize: 12)),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 190),
+                          padding: EdgeInsets.only(right: 170),
                           child: Text('Steve@gmail.com',
                               style: TextStyle(
                                   fontFamily: 'clanot', fontSize: 12)),
@@ -374,18 +379,18 @@ class _CheckindetailsState extends State<Checkindetails> {
                       ],
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(right: 230),
+                          padding: EdgeInsets.only(right: 250),
                           child: Text('Country',
                               style: TextStyle(
                                   fontFamily: 'clanot', fontSize: 12)),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 180),
+                          padding: EdgeInsets.only(right: 160),
                           child: Text('United Arab Emirates',
                               style: TextStyle(
                                   fontFamily: 'clanot', fontSize: 12)),
@@ -393,18 +398,18 @@ class _CheckindetailsState extends State<Checkindetails> {
                       ],
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(right: 230),
+                          padding: EdgeInsets.only(right: 250),
                           child: Text('Company',
                               style: TextStyle(
                                   fontFamily: 'clanot', fontSize: 12)),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 40),
+                          padding: EdgeInsets.only(right: 30),
                           child: Text('Overseas Workers Welfare Administration',
                               style: TextStyle(
                                   fontFamily: 'clanot', fontSize: 12)),
@@ -673,7 +678,7 @@ class _CheckindetailsState extends State<Checkindetails> {
                         value: this.value,
                         onChanged: (value) {
                           setState(() {
-                            this.value = value!;
+                            this.value = value2;
                           });
                         }),
                     Text('Social Event',
@@ -821,7 +826,7 @@ class _CheckindetailsState extends State<Checkindetails> {
                   value: this.value,
                   onChanged: (value) {
                     setState(() {
-                      this.value = value!;
+                      this.value = value1;
                     });
                   }),
               SizedBox(
@@ -839,9 +844,12 @@ class _CheckindetailsState extends State<Checkindetails> {
           Container(
               child: Row(
             children: [
-              Text(
-                'Guest Signature',
-                style: TextStyle(fontSize: 12, fontFamily: 'clanot'),
+              Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Text(
+                  'Guest Signature',
+                  style: TextStyle(fontSize: 12, fontFamily: 'clanot'),
+                ),
               ),
               SizedBox(
                 width: 200,

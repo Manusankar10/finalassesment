@@ -1,393 +1,499 @@
-import 'dart:ui';
+import 'dart:convert';
 
+import 'package:finalassesment/bookingdetail.dart';
 import 'package:finalassesment/cardconfirmation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:http/http.dart' as http;
 
-class Identity extends StatefulWidget {
-  const Identity({super.key});
-
+class identifyVerification extends StatefulWidget {
+  identifyVerification({super.key, required this.jsonobj});
+  Bookingdata jsonobj;
   @override
-  State<Identity> createState() => _IdentityState();
+  State<identifyVerification> createState() => _identifyVerificationState();
 }
 
-class _IdentityState extends State<Identity> {
-  TextEditingController doctype = TextEditingController();
-  var value1;
+class _identifyVerificationState extends State<identifyVerification> {
+  TextEditingController Doc = TextEditingController();
+  TextEditingController Firstname = TextEditingController();
+  TextEditingController Lastname = TextEditingController();
+  TextEditingController dateofbirth = TextEditingController();
+  TextEditingController documentnumber = TextEditingController();
+  TextEditingController documentissuedate = TextEditingController();
+  TextEditingController documentexpirydate = TextEditingController();
+  TextEditingController country = TextEditingController();
+  TextEditingController Phone = TextEditingController();
+  int value1 = 0;
+  List datas = [];
+  _fieldsIdentify(TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: Container(
+        height: 30,
+        width: 300,
+        child: TextFormField(
+          controller: controller,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          style: TextStyle(fontFamily: 'clanot', fontSize: 12),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'please enter the value';
+            }
+            return null;
+          },
+        ),
+      ),
+    );
+  }
+
+  void _getdata() async {
+    var response = await http.get(Uri.parse(
+        'http://43.205.99.251:8000/booking/hotel/82923932/1234/document'));
+
+    if (response.statusCode == 200) {
+      Map data1 = json.decode(response.body);
+      setState(() {
+        datas = data1["data"];
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _getdata();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+            onPressed: (() {
+              Navigator.pop(context);
+            }),
             icon: Icon(
               Icons.arrow_back_ios,
               color: Color.fromARGB(255, 153, 115, 23),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: [
-            Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.notifications_none,
-                    color: Color.fromARGB(255, 153, 115, 23),
-                  ),
-                  onPressed: () {},
-                ))
-          ],
-        ),
-        body: SingleChildScrollView(
-            child: Center(
-                child: Container(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-              Text(
-                'Identity Verification',
-                style: TextStyle(fontFamily: 'clanot', fontSize: 20),
-              ),
+            )),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 22.74),
+              child: Icon(
+                Icons.notifications_none,
+                color: Color.fromARGB(255, 153, 115, 23),
+              )),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            child: Column(children: [
               SizedBox(
-                height: 10,
+                height: 23.12,
               ),
-              Text(
-                'Upload your travel document to verify your identity.\n We do not share this information with external sources.',
-                style: TextStyle(fontFamily: 'clanot', fontSize: 12),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                width: 300,
-                child: TextFormField(
-                    controller: doctype,
-                    decoration: InputDecoration(
-                        labelText: 'DOC TYPE',
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            Icons.expand_more,
-                            color: Color.fromARGB(255, 153, 115, 23),
-                          ),
-                          onPressed: () {
-                            showModalBottomSheet<void>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Container(
-                                  height: 400,
-                                  color: Colors.white,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 50,
-                                      ),
-                                      Column(
-                                        children: [
-                                          Center(
-                                              child: Text(
-                                            'Document Type',
-                                            style: TextStyle(
-                                                fontFamily: 'clanot',
-                                                fontSize: 16),
-                                          )),
-                                          SizedBox(
-                                            height: 60,
-                                          ),
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                height: 66,
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 17),
-                                                child: Text(
-                                                  'Driving License',
-                                                  style: TextStyle(
-                                                      fontFamily: 'clanot'),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 155,
-                                              ),
-                                              Radio(
-                                                value: 100,
-                                                groupValue: value1,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    value1 = 100;
-                                                  });
-                                                },
-                                              )
-                                            ],
-                                          ),
-                                          Divider(
-                                            height: 20,
-                                            thickness: 1,
-                                            endIndent: 30,
-                                            indent: 20,
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                            width: 17,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 17),
-                                                child: Text(
-                                                  'Passport',
-                                                  style: TextStyle(
-                                                      fontFamily: 'clanot'),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 200,
-                                              ),
-                                              Radio(
-                                                value: 102,
-                                                groupValue: value1,
-                                                onChanged: (value) {
-                                                  value1 = 102;
-                                                },
-                                              )
-                                            ],
-                                          ),
-                                          Divider(
-                                            height: 20,
-                                            thickness: 1,
-                                            endIndent: 30,
-                                            indent: 20,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Center(
-                                        child: SizedBox(
-                                          height: 46,
-                                          width: 300,
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                if (value1 == 100) {
-                                                  doctype.text =
-                                                      'Driving License';
-                                                } else {
-                                                  doctype.text = 'Passport';
-                                                }
-                                              });
-                                            },
-                                            child: Text(
-                                              'Done',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontFamily: 'clanot'),
-                                            ),
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Color.fromARGB(255, 153,
-                                                            115, 23))),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ))),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 150,
-                width: 285,
-                color: Colors.grey.shade200,
-                child: Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Image.asset('assets/images/scan.png'),
+              Column(
+                children: [
+                  Text(
+                    'Identity Verification',
+                    style: TextStyle(fontFamily: 'clanot', fontSize: 20),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 12,
                   ),
-                  Text(
-                    'Scan Travel \nDocument',
-                    style: TextStyle(fontFamily: 'clanot', fontSize: 14),
-                  )
-                ]),
-              ),
-              Container(
-                  child: Column(children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Row(
-                  children: [
-                    Padding(padding: EdgeInsets.only(left: 30)),
-                    Text(
-                      'First Name',
+                  Column(
+                    children: [
+                      Text(
+                        '  Upload your travel document to verify your Identity.\nwe do not share this information with external sources.',
+                        style: TextStyle(fontFamily: 'clanot', fontSize: 12),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: 300,
+                    child: TextFormField(
+                      controller: Doc,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       style: TextStyle(fontFamily: 'clanot', fontSize: 12),
+                      decoration: InputDecoration(
+                          labelText: 'DOC TYPE',
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                      builder: (context, setstate) {
+                                    return Container(
+                                      height: 465,
+                                      color: Colors.white,
+                                      child: Center(
+                                        child: Column(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            Text(
+                                              'Document Type',
+                                              style: TextStyle(
+                                                  fontFamily: 'clanot',
+                                                  fontSize: 20),
+                                            ),
+                                            SizedBox(
+                                              height: 35,
+                                            ),
+                                            Container(
+                                              height: 240,
+                                              child: ListView.builder(
+                                                  itemCount: datas.length,
+                                                  itemBuilder:
+                                                      ((context, index) {
+                                                    return RadioListTile(
+                                                      value: index,
+                                                      groupValue: value1,
+                                                      onChanged: ((value) {
+                                                        value1 = index;
+                                                      }),
+                                                      title: Text(
+                                                        datas[index]["name"],
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontFamily:
+                                                                'clanot',
+                                                            fontSize: 12),
+                                                      ),
+                                                      controlAffinity:
+                                                          ListTileControlAffinity
+                                                              .trailing,
+                                                      activeColor:
+                                                          Color.fromARGB(255,
+                                                              153, 115, 23),
+                                                    );
+                                                  })),
+                                            ),
+                                            SizedBox(
+                                              height: 15,
+                                            ),
+                                            InkWell(
+                                              child: Center(
+                                                  child: Container(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.85,
+                                                height: 60,
+                                                decoration: BoxDecoration(
+                                                  color: Color.fromARGB(
+                                                      255, 153, 115, 23),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'DONE',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        fontFamily: 'clanot',
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              )),
+                                              onTap: () {
+                                                Doc.text =
+                                                    datas[value1]['name'];
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                                },
+                              );
+                            },
+                            icon: Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Icon(
+                                Icons.expand_more,
+                                color: Color.fromARGB(255, 153, 115, 23),
+                              ),
+                            ),
+                          )),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 40,
-                  width: 300,
-                  child: TextFormField(
-                      decoration: InputDecoration(labelText: '', hintText: '')),
-                ),
-                Container(
-                    child: Column(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 30)),
-                        Text(
-                          'Last Name',
-                          style: TextStyle(fontFamily: 'clanot', fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: 300,
-                      child: TextFormField(
-                          decoration:
-                              InputDecoration(labelText: '', hintText: '')),
-                    )
-                  ],
-                )),
-                Container(
-                  child: Column(children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 30)),
-                        Text(
-                          'Date of Birth',
-                          style: TextStyle(fontFamily: 'clanot', fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: 300,
-                      child: TextFormField(
-                          decoration:
-                              InputDecoration(labelText: '', hintText: '')),
-                    ),
-                  ]),
-                ),
-                Container(
-                  child: Column(children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 30)),
-                        Text(
-                          'Document Number',
-                          style: TextStyle(fontFamily: 'clanot', fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: 300,
-                      child: TextFormField(
-                          decoration:
-                              InputDecoration(labelText: '', hintText: '')),
-                    ),
-                  ]),
-                ),
-                Container(
-                  child: Column(children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 30)),
-                        Text(
-                          'Document Issue Date',
-                          style: TextStyle(fontFamily: 'clanot', fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: 300,
-                      child: TextFormField(
-                          decoration:
-                              InputDecoration(labelText: '', hintText: '')),
-                    ),
-                  ]),
-                ),
-                Container(
-                  child: Column(children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 30)),
-                        Text(
-                          'Country',
-                          style: TextStyle(fontFamily: 'clanot', fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: 300,
-                      child: TextFormField(
-                          decoration:
-                              InputDecoration(labelText: '', hintText: '')),
-                    ),
-                  ]),
-                ),
-                SizedBox(
-                  height: 60,
-                ),
-                SizedBox(
-                  height: 46,
-                  width: 300,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Cardconfirm()),
-                      );
-                    },
-                    child: Text(
-                      'NEXT',
-                      style: TextStyle(fontSize: 15, fontFamily: 'clanot'),
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            Color.fromARGB(255, 153, 115, 23))),
                   ),
-                ),
-                SizedBox(
-                  height: 100,
-                )
-              ]))
-            ])))));
+                  SizedBox(
+                    height: 48,
+                  ),
+                  Container(
+                    width: 295,
+                    height: 200,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 248, 247, 247)),
+                    child: Container(
+                      child: Center(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 32,
+                            ),
+                            Icon(
+                              Icons.document_scanner_rounded,
+                              size: 60,
+                              color: Color.fromARGB(255, 153, 115, 23),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              'Scan Travel \n Document',
+                              style: TextStyle(fontFamily: 'clanot'),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 52,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'First Name',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'clanot',
+                            ),
+                          ),
+                          Text(
+                            '*',
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [_fieldsIdentify(Firstname)],
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Last Name',
+                            style:
+                                TextStyle(fontSize: 12, fontFamily: 'clanot'),
+                          ),
+                          Text(
+                            '*',
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [_fieldsIdentify(Lastname)],
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Date of Birth',
+                            style:
+                                TextStyle(fontSize: 12, fontFamily: 'clanot'),
+                          ),
+                          Text(
+                            '*',
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [_fieldsIdentify(dateofbirth)],
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Document Number',
+                            style:
+                                TextStyle(fontSize: 12, fontFamily: 'clanot'),
+                          ),
+                          Text(
+                            '*',
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [_fieldsIdentify(documentnumber)],
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Document Issue Date',
+                            style:
+                                TextStyle(fontSize: 12, fontFamily: 'clanot'),
+                          ),
+                          Text(
+                            '*',
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [_fieldsIdentify(documentissuedate)],
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Document Expiry Date',
+                            style:
+                                TextStyle(fontSize: 12, fontFamily: 'clanot'),
+                          ),
+                          Text(
+                            '*',
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [_fieldsIdentify(documentexpirydate)],
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Country',
+                            style:
+                                TextStyle(fontSize: 12, fontFamily: 'clanot'),
+                          ),
+                          Text(
+                            '*',
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [_fieldsIdentify(country)],
+                  ),
+                  SizedBox(
+                    height: 26.49,
+                  ),
+                  InkWell(
+                    onTap: (() {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => Cardconfirm(
+                                jsonobj: this.widget.jsonobj,
+                              )));
+                    }),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 30, right: 30),
+                        child: Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 153, 115, 23),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Next',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Clan',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  )
+                ],
+              ),
+            ]),
+          ),
+        ),
+      ),
+    );
   }
 }

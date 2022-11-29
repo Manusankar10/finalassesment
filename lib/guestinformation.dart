@@ -1,10 +1,13 @@
+import 'package:finalassesment/bookingdetail.dart';
 import 'package:finalassesment/identityverification.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/services.dart';
 
 class Guestinfo extends StatefulWidget {
-  const Guestinfo({super.key});
+  Guestinfo({super.key, required this.jsonobj});
+
+  Bookingdata jsonobj;
 
   @override
   State<Guestinfo> createState() => _GuestinfoState();
@@ -142,13 +145,13 @@ class _GuestinfoState extends State<Guestinfo> {
                       height: 40,
                     ),
                     Container(
-                        height: 500,
+                        height: 450,
                         width: 333,
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Container(
                           child: Column(children: [
                             Padding(
-                              padding: EdgeInsets.only(right: 40, top: 10),
+                              padding: EdgeInsets.only(right: 60, top: 10),
                               child: Text(
                                 'Accompanying Guest Information',
                                 style: TextStyle(
@@ -160,7 +163,7 @@ class _GuestinfoState extends State<Guestinfo> {
                             ),
                             Row(
                               children: [
-                                Padding(padding: EdgeInsets.only(left: 30)),
+                                Padding(padding: EdgeInsets.only(left: 20)),
                                 Text(
                                   'First Name',
                                   style: TextStyle(
@@ -169,7 +172,7 @@ class _GuestinfoState extends State<Guestinfo> {
                               ],
                             ),
                             SizedBox(
-                              height: 40,
+                              height: 30,
                               width: 250,
                               child: TextFormField(
                                   decoration: InputDecoration(
@@ -182,7 +185,7 @@ class _GuestinfoState extends State<Guestinfo> {
                                 ),
                                 Row(
                                   children: [
-                                    Padding(padding: EdgeInsets.only(left: 30)),
+                                    Padding(padding: EdgeInsets.only(left: 20)),
                                     Text(
                                       'Last Name',
                                       style: TextStyle(
@@ -191,7 +194,7 @@ class _GuestinfoState extends State<Guestinfo> {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: 40,
+                                  height: 30,
                                   width: 250,
                                   child: TextFormField(
                                       decoration: InputDecoration(
@@ -206,7 +209,7 @@ class _GuestinfoState extends State<Guestinfo> {
                                 ),
                                 Row(
                                   children: [
-                                    Padding(padding: EdgeInsets.only(left: 30)),
+                                    Padding(padding: EdgeInsets.only(left: 20)),
                                     Text(
                                       'Email',
                                       style: TextStyle(
@@ -215,7 +218,7 @@ class _GuestinfoState extends State<Guestinfo> {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: 40,
+                                  height: 30,
                                   width: 250,
                                   child: TextFormField(
                                       decoration: InputDecoration(
@@ -230,7 +233,7 @@ class _GuestinfoState extends State<Guestinfo> {
                                 ),
                                 Row(
                                   children: [
-                                    Padding(padding: EdgeInsets.only(left: 30)),
+                                    Padding(padding: EdgeInsets.only(left: 20)),
                                     Text(
                                       'Phone No',
                                       style: TextStyle(
@@ -239,7 +242,7 @@ class _GuestinfoState extends State<Guestinfo> {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: 40,
+                                  height: 30,
                                   width: 250,
                                   child: TextFormField(
                                       decoration: InputDecoration(
@@ -259,7 +262,10 @@ class _GuestinfoState extends State<Guestinfo> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Identity()),
+                            MaterialPageRoute(
+                                builder: (context) => identifyVerification(
+                                      jsonobj: this.widget.jsonobj,
+                                    )),
                           );
                         },
                         child: Text(
